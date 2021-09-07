@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Skenet ja Koodi/Vihollinen.tscn" type="PackedScene" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+export (PackedScene) var vihollinen
+# Vaihtoehtoisesti:
+#var vihollinen = preload(\"res://Skenet ja Koodi/Vihollinen.tscn\")
+
+export var min_tauko: float = 1.5
+export var max_tauko: float = 2.1
+
+# Timer -solmu on ajastin, jolle voi antaa tarvittavan ajan:
+# se ilmoittaa kun aika on kulunut loppuun
+onready var _ajastin = $Timer
+
+func _luo_vihollinen():
+	# Luodaan uusi 'Vihollinen' skene
+	#	Tämä ei vielä lisää skeneä peliin
+	var uusi_vihollinen = vihollinen.instance()
+	# Asetetaan vihollisen suunta ja paikka:
+	#uusi_vihollinen.aseta_suunta(transform.x)
+	uusi_vihollinen.rotation = rotation
+	uusi_vihollinen.global_position = global_position
+	# Lisätään luotu ja säädetty skene peliin
+	get_parent().add_child(uusi_vihollinen)
+
+func _ready():
+	# Valmistellaan satunnaislukujen tuottaminen
+	randomize()
+	# Aloitetaan lähtölaskenta; kun aika on kulunut loppuun
+	# ajastin lähettää signaalin 'timeout', joka yhdistetään
+	# alla olevaan funktioon
+	#	rand_range palauttaa satunnaisen luvun kahden luvun väliltä
+	_ajastin.start(rand_range(min_tauko, max_tauko))
+
+# Tämä funktio ottaa vastaan ajastimen 'timeout' -signaalin
+func _on_Timer_timeout():
+	_luo_vihollinen()
+	_ajastin.start(rand_range(min_tauko, max_tauko))
+"
+
+[node name="VihollisLähde" type="Node2D"]
+script = SubResource( 1 )
+vihollinen = ExtResource( 2 )
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Resurssit/Animaatio_Pelaaja.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://Skenet ja Koodi/Pelaaja.gd" type="Script" id=2]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 19.0
+
+[node name="Pelaaja" type="Area2D"]
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0, -2 )
+rotation = 1.5708
+scale = Vector2( 0.5, 0.5 )
+frames = ExtResource( 1 )
+animation = "paikalla"
+playing = true
+[connection signal="body_entered" from="." to="." method="_on_Pelaaja_body_entered"]

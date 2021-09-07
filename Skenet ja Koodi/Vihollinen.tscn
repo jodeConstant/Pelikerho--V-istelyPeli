@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Resurssit/Animaatio_Vihollinen.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://Skenet ja Koodi/Vihollinen.gd" type="Script" id=7]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 25.0972
+height = 28.238
+
+[node name="Vihollinen" type="KinematicBody2D" groups=[
+"viholliset",
+]]
+script = ExtResource( 7 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = -1.5708
+shape = SubResource( 1 )
+__meta__ = {
+"_editor_description_": "Käännetään sivuttain, jotta kapea pää osoittaa oikealle"
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+rotation = -1.5708
+scale = Vector2( 0.75, 0.75 )
+frames = ExtResource( 1 )
+animation = "fly"
+playing = true
+__meta__ = {
+"_editor_description_": "Käännetään niin, että etuosa osoittaa oikealle"
+}
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

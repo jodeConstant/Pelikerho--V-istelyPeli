@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Skenet ja Koodi/VihollistenAsettaja.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Skenet ja Koodi/Pelaaja.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Skenet ja Koodi/Vihollinen.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Skenet ja Koodi/Pelitaso.gd" type="Script" id=4]
+[ext_resource path="res://Skenet ja Koodi/Käyttöliittymä.tscn" type="PackedScene" id=5]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1024, 0, 0, 0, 0, 0, 1024, 600, 0, 0, 0, 0, 0, 600, 0, 0, 0, 0, 0, 0 )
+}
+
+[node name="Pelitaso" type="Node2D"]
+script = ExtResource( 4 )
+__meta__ = {
+"_editor_description_": "Melkoinen määrä signaaleja, voisi tehdä paremmin"
+}
+
+[node name="Pelaaja" parent="." instance=ExtResource( 2 )]
+position = Vector2( 552, 272 )
+
+[node name="VihollistenAsettaja" parent="." instance=ExtResource( 1 )]
+curve = SubResource( 1 )
+vihollinen = ExtResource( 3 )
+
+[node name="PisteLaskuri" type="Timer" parent="."]
+
+[node name="Käyttöliittymä" parent="." instance=ExtResource( 5 )]
+
+[node name="MusiikinSoitin" type="AudioStreamPlayer" parent="."]
+[connection signal="pisteiden_paivitys" from="." to="Käyttöliittymä" method="paivita_pisteet"]
+[connection signal="hit" from="Pelaaja" to="Käyttöliittymä" method="nayta_valikko"]
+[connection signal="hit" from="Pelaaja" to="." method="lopeta_peli"]
+[connection signal="hit" from="Pelaaja" to="VihollistenAsettaja" method="lopeta"]
+[connection signal="timeout" from="PisteLaskuri" to="." method="_on_PisteLaskuri_timeout"]
+[connection signal="aloita_peli" from="Käyttöliittymä" to="." method="uusi_peli"]
+[connection signal="aloita_peli" from="Käyttöliittymä" to="Pelaaja" method="palauta"]
+[connection signal="aloita_peli" from="Käyttöliittymä" to="VihollistenAsettaja" method="aloita"]

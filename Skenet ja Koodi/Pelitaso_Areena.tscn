@@ -24,6 +24,8 @@ vihollinen = ExtResource( 1 )
 
 [node name="Pelaaja" parent="." instance=ExtResource( 2 )]
 position = Vector2( 320, 416 )
+elossa = false
+paikan_rajoitus = false
 
 [node name="Camera2D" type="Camera2D" parent="Pelaaja"]
 current = true
@@ -34,9 +36,9 @@ volume_db = -19.19
 [node name="PisteLaskuri" type="Timer" parent="."]
 
 [node name="Käyttöliittymä" parent="." instance=ExtResource( 6 )]
+[connection signal="pelin_loppu" from="." to="Käyttöliittymä" method="nayta_valikko"]
+[connection signal="pelin_loppu" from="." to="VihollistenAsettaja" method="lopeta"]
 [connection signal="pisteiden_paivitys" from="." to="Käyttöliittymä" method="paivita_pisteet"]
-[connection signal="hit" from="Pelaaja" to="VihollistenAsettaja" method="lopeta"]
-[connection signal="hit" from="Pelaaja" to="Käyttöliittymä" method="nayta_valikko"]
 [connection signal="hit" from="Pelaaja" to="." method="lopeta_peli"]
 [connection signal="timeout" from="PisteLaskuri" to="." method="_on_PisteLaskuri_timeout"]
 [connection signal="aloita_peli" from="Käyttöliittymä" to="VihollistenAsettaja" method="aloita"]

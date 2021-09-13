@@ -64,7 +64,9 @@ func _physics_process(delta):
 	# 	Kun kerrotaan nopeus kuluneella ajalla saadaan kuljettu matka.
 	# 	Kun kerrotaan suuntavektorin molemmat luvut (komponentit) saadaan
 	# 	matkat vaaka- ja pystysuunnassa.
-	position += nopeus * delta * _suunta_vektori
+	# Liikutetaan vain jos elossa
+	if elossa:
+		position += nopeus * delta * _suunta_vektori
 	
 	# Käännetään pelaaja oikeaan suuntaan:
 	look_at(position + _suunta_vektori)
@@ -90,12 +92,8 @@ func _physics_process(delta):
 	else:
 		_animaatio.animation = "paikalla"
 
-func palauta():
-	show()
-	$CollisionShape2D.disabled = false
-
-func _on_Pelaaja_body_entered(body):
-	elossa = false
+# Kutsutaan kun pelaaja saa osuman tai poistuu alueelta
+func piilota():
 	# Piilotetaan pelaaja
 	hide()
 	# Lähetetään signaali nimeltä 'hit', joka luotiin tässä skriptissä
@@ -103,3 +101,15 @@ func _on_Pelaaja_body_entered(body):
 	# Asetetaan muuttujan nimeltä 'disabled' arvoksi true, mutta
 	# vasta kun tärkeät laskelmat tämän päivityksen aikana on tehty:
 	$CollisionShape2D.set_deferred("disabled", true)
+	elossa = false
+
+func palauta():
+	show()
+	$CollisionShape2D.disabled = false
+	elossa = true
+
+func _on_Pelaaja_body_entered(body):
+	piilota()
+
+func _on_Pelaaja_area_exited(area):
+	piilota()

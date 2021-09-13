@@ -8,6 +8,7 @@ onready var _vihollisten_asettaja = $VihollistenAsettaja
 onready var pisteet: int = 0
 
 signal pisteiden_paivitys(pisteet)
+signal pelin_loppu()
 
 func uusi_peli():
 	pisteet = 0
@@ -18,6 +19,7 @@ func lopeta_peli():
 	_piste_laskuri.stop()
 	# Poistetaan kaikki ryhmässä "viholliset"
 	get_tree().call_group("viholliset", "queue_free")
+	emit_signal("pelin_loppu")
 
 func _ready():
 	randomize()

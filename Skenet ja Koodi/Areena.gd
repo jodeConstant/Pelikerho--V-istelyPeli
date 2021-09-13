@@ -2,8 +2,8 @@ extends Area2D
 
 # Ainoa Area2D -tyyppinen olio tässä pelissä on pelaaja
 func _on_Areena_area_exited(area):
-	# Pelaaja häviää jos poistuu areenan alueelta
-	pass
+	# Palautetaan pelaaja keskelle jos yritetään poistua
+	area.position = position
 
 
 # Kaikki PhysicsBody2D oliot tässä pelissä ovat vihollisia

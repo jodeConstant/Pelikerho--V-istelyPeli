@@ -11,7 +11,7 @@ func nayta_valikko():
 	_otsikko.show()
 	_pelin_aloitus.show()
 
-func paivita_pisteet(var pisteet: int):
+func paivita_pisteet(pisteet: int):
 	_pisteet.text = str(pisteet)
 
 func _on_PelinAloitus_pressed():

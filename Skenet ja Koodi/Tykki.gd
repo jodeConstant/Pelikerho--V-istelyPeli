@@ -13,7 +13,7 @@ func laukaus():
 	uusi_vihollinen.rotation = rotation
 	uusi_vihollinen.nopeus = rand_range(min_nopeus, max_nopeus)
 
-func laukaus_kohti(var kohde: Vector2):
+func laukaus_kohti(kohde: Vector2):
 	look_at(kohde)
 	laukaus()
 	
